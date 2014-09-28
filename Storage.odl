@@ -1,0 +1,72 @@
+// Storage.odl : type library source for ActiveX Control project.
+
+// This file will be processed by the Make Type Library (mktyplib) tool to
+// produce the type library (Storage.tlb) that will become a resource in
+// Storage.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(10AFC658-D850-4ACD-A18B-1B090823E370), version(1.0),
+  helpfile("Storage.hlp"),
+  helpstring("Storage ActiveX Control module"),
+  control ]
+library STORAGELib
+{
+	importlib(STDOLE_TLB);
+	importlib(STDTYPE_TLB);
+
+	//  Primary dispatch interface for CStorageCtrl
+
+	[ uuid(AF7FA2E2-9083-421A-9E3D-153387D90080),
+	  helpstring("Dispatch interface for Storage Control"), hidden ]
+	dispinterface _DStorage
+	{
+		properties:
+			// NOTE - ClassWizard will maintain property information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_PROP(CStorageCtrl)
+			//}}AFX_ODL_PROP
+
+		methods:
+			// NOTE - ClassWizard will maintain method information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_METHOD(CStorageCtrl)
+			[id(1)] BSTR Get(BSTR key);
+			[id(2)] BSTR Set(BSTR key, BSTR value);
+			[id(3)] BSTR Clear();
+			//}}AFX_ODL_METHOD
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+	};
+
+	//  Event dispatch interface for CStorageCtrl
+
+	[ uuid(1435A4CD-87B6-4C17-90CF-E2B564BD2916),
+	  helpstring("Event interface for Storage Control") ]
+	dispinterface _DStorageEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			// NOTE - ClassWizard will maintain event information here.
+			//    Use extreme caution when editing this section.
+			//{{AFX_ODL_EVENT(CStorageCtrl)
+			//}}AFX_ODL_EVENT
+	};
+
+	//  Class information for CStorageCtrl
+
+	[ uuid(036E915A-3F08-443A-8D34-5166A50EE4F2),
+	  helpstring("Storage Control"), control ]
+	coclass Storage
+	{
+		[default] dispinterface _DStorage;
+		[default, source] dispinterface _DStorageEvents;
+	};
+
+
+	//{{AFX_APPEND_ODL}}
+	//}}AFX_APPEND_ODL}}
+};
