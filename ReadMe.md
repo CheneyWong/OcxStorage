@@ -1,3 +1,5 @@
+# OcxStorage
+
 ##说明
 该程序为满足一个特殊需求而制作.主要功能是在客户端存储键值型数据到 ocx , cookis 或者 storage 完全能替换它的功能,但是这里就用了 ocx ,算是 ocx 的一个 demo 吧.
 
