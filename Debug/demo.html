@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>test</title>
+	</head>
+	<body>
+	<div style="display:none;">
+		<OBJECT id="OcxStorage" name="OcxStorage" classid="clsid:036E915A-3F08-443A-8D34-5166A50EE4F2" data="C:/Windows/System32/OcxStorage.ocx"></OBJECT>
+	</div>
+	<script type="text/javascript">
+		var OcxStorage = document.getElementById("OcxStorage");
+
+		alert(OcxStorage.Get("Hello"));
+		alert(OcxStorage.Set("Hello","World"));
+		alert(OcxStorage.Set("1","World"));
+		alert(OcxStorage.Set("2","Wo  rld"));
+		alert(OcxStorage.Set("9","Worwld"));
+		alert(OcxStorage.Set("23","Woarld"));
+		alert(OcxStorage.Get("Hello"));
+		
+	</script>
+	</body>
+</html>
+
