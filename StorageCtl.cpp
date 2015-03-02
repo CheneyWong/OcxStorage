@@ -193,7 +193,44 @@ void CStorageCtrl::AboutBox()
 	dlgAbout.DoModal();
 }
 
+// 调试信息
+void logForPrj ( char *desc )
+{
+	HANDLE hFile;
+	int writeLen, len;
+	SYSTEMTIME st;
+	char buf[256];
 
+	GetLocalTime ( &st );
+	sprintf ( buf, "C:\\LOG\\log_%04d%02d%02d", 
+			  st.wYear, st.wMonth, st.wDay );
+	hFile = CreateFile(buf, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if(hFile == INVALID_HANDLE_VALUE)
+		return;
+	SetFilePointer(hFile, 0, NULL, FILE_END);
+
+	sprintf ( buf, "[%04d-%02d-%02d %02d:%02d:%02d] ", 
+			  st.wYear, st.wMonth, st.wDay, 
+			  st.wHour, st.wMinute, st.wSecond );
+	WriteFile(hFile, buf, strlen ( buf ), (LPDWORD)&writeLen, NULL);
+
+	len = strlen ( desc );
+	WriteFile(hFile, desc, len, (LPDWORD)&writeLen, NULL);
+	WriteFile(hFile, "\r\n", 2, (LPDWORD)&writeLen, NULL);
+	CloseHandle(hFile);
+}
+
+void logForPrjEx ( char *format, ... )
+{
+	char buf[512];
+	va_list args;
+
+	va_start ( args, format );
+	vsprintf ( buf, format, args );
+	va_end ( args );
+
+	logForPrj ( buf );
+}
 /////////////////////////////////////////////////////////////////////////////
 // 数据存储
 //#define MAX_NUM 50
@@ -251,8 +288,7 @@ public :
 
 //#ifdef _DEBUG
 		CString str = ToString();
-		CString cmd = "cmd /c echo " + str + " > D:\\Storagelog.txt";
-		WinExec(cmd, SW_HIDE);
+		logForPrjEx("%s",str);
 //#endif
 	}
 
@@ -292,8 +328,8 @@ public :
 		}
 
 //#ifdef _DEBUG
-		CString cmd = "cmd /c echo clean > D:\\Storagelog.txt";
-		WinExec(cmd, SW_HIDE);
+		CString str = ToString();
+		logForPrjEx("%s",str);
 //#endif
 	}
 
@@ -343,7 +379,7 @@ private :
 				{
 					break;
 				}
-				tstr.Format("{%s:%s}", p->key , p->value);
+				tstr.Format("{%s:%s}\r\n", p->key , p->value);
 				str += tstr;
 				p = p->pNext;
 			}
@@ -355,6 +391,7 @@ private :
 /////////////////////////////////////////////////////////////////////////////
 // CStorageCtrl message handlers
 CData gData;
+
 
 BSTR CStorageCtrl::Get(LPCTSTR key) 
 {
