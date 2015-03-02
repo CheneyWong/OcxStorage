@@ -48,6 +48,8 @@ protected:
 	afx_msg BSTR Get(LPCTSTR key);
 	afx_msg BSTR Set(LPCTSTR key, LPCTSTR value);
 	afx_msg BSTR Clear();
+	afx_msg BSTR Plus(LPCTSTR key);
+	afx_msg BSTR Insert(LPCTSTR key, LPCTSTR value);
 	//}}AFX_DISPATCH
 	DECLARE_DISPATCH_MAP()
 
@@ -65,6 +67,8 @@ public:
 	dispidGet = 1L,
 	dispidSet = 2L,
 	dispidClear = 3L,
+	dispidPlus = 4L,
+	dispidInsert = 5L,
 	//}}AFX_DISP_ID
 	};
 };

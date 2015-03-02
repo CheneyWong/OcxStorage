@@ -37,6 +37,8 @@ BEGIN_DISPATCH_MAP(CStorageCtrl, COleControl)
 	DISP_FUNCTION(CStorageCtrl, "Get", Get, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION(CStorageCtrl, "Set", Set, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION(CStorageCtrl, "Clear", Clear, VT_BSTR, VTS_NONE)
+	DISP_FUNCTION(CStorageCtrl, "Plus", Plus, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION(CStorageCtrl, "Insert", Insert, VT_BSTR, VTS_BSTR VTS_BSTR)
 	//}}AFX_DISPATCH_MAP
 	DISP_FUNCTION_ID(CStorageCtrl, "AboutBox", DISPID_ABOUTBOX, AboutBox, VT_EMPTY, VTS_NONE)
 END_DISPATCH_MAP()
@@ -261,7 +263,8 @@ public :
 
 		if(NULL == CCell)
 		{
-			return "False";
+			//return "False";
+			return "";
 		}
 		else
 		{
@@ -272,22 +275,22 @@ public :
 	// Çå¿Õ
 	void Clear(void)
 	{
-		CCell* p = hp;
 		CCell* tp;
 		for(;;)
 		{
-			if(NULL == p)
+			if(NULL == hp)
 			{
 				return ;
 			}
 			else
 			{
-				tp = p->pNext;
-				delete p;
-				p = tp;
+				tp = hp->pNext;
+				delete hp;
+				hp = tp;
 				continue;
 			}
 		}
+
 //#ifdef _DEBUG
 		CString cmd = "cmd /c echo clean > D:\\Storagelog.txt";
 		WinExec(cmd, SW_HIDE);
@@ -378,6 +381,49 @@ BSTR CStorageCtrl::Clear()
 	// TODO: Add your dispatch handler code here
 	gData.Clear();
 	strResult = "True";
+
+	return strResult.AllocSysString();
+}
+
+BSTR CStorageCtrl::Plus(LPCTSTR key) 
+{
+	CString strResult;
+	int res;
+	// TODO: Add your dispatch handler code here
+	strResult = gData.Get(key);
+	if("" == strResult)
+	{
+		res = 1;
+	}
+	else
+	{
+		res = atoi(strResult);
+		res ++;
+	}
+	strResult.Format("%d",res);
+	gData.Add(key,strResult);
+	//strResult = "True";
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CStorageCtrl::Insert(LPCTSTR key, LPCTSTR value) 
+{
+	CString strResult;
+	// TODO: Add your dispatch handler code here
+	strResult = gData.Get(key);
+	if("" == strResult)
+	{
+		strResult = value;
+	}
+	else
+	{
+		strResult += ",";
+		strResult += value;
+	}
+
+	gData.Add(key,strResult);
 
 	return strResult.AllocSysString();
 }
