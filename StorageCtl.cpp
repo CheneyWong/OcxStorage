@@ -202,7 +202,7 @@ void logForPrj ( char *desc )
 	char buf[256];
 
 	GetLocalTime ( &st );
-	sprintf ( buf, "C:\\LOG\\log_%04d%02d%02d", 
+	sprintf ( buf, "C:\\LOG\\%04d%02d%02d.log", 
 			  st.wYear, st.wMonth, st.wDay );
 	hFile = CreateFile(buf, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if(hFile == INVALID_HANDLE_VALUE)
